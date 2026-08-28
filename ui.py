@@ -3,6 +3,7 @@
 
 import tkinter as tk
 import task_manger as tm #now can use CRUD functions
+from tkinter import ttk 
 
 def showWidget(window):
   
@@ -35,18 +36,31 @@ def showWidget(window):
     
   def show_all_tasks():
     print("Showing all tasks")
-    
+   
+  #button to show toadys task in the sideframe  
   btn_today = tk.Button(sidebar,
                         text=" Toaday's Tasks ",
                         command=show_todays_tasks)
   btn_today.pack(fill="x", pady=5)
   
+  #button to show All tasks in the sideframe
   btn_all_tasks = tk.Button(sidebar,
                             text="All Tasks ",
                             command=show_all_tasks)
   btn_all_tasks.pack(fill="x", pady=5)
   
-   
+   #main treeview inside the "content" frame!
+  tree= ttk.Treeview(content,
+                     columns =("check","title"),
+                     show="headings")
+  tree.heading("check",text="")
+  tree.heading("title",text="task")
+  
+  tree.column("check",width=40,anchor="center")
+  tree.column("title",width= 300,anchor="w")
+  
+  tree.pack(fill="both", expand=True)
+  
   label=tk.Label(window,
                  text="To Do List",
                  bg="teal",
