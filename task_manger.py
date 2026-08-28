@@ -22,10 +22,11 @@ def addTask(title):
 def getTasks():
   return list(tasks)
 
-def delete_task():
-  global task_id
+def delete_task(task_id):
+  global tasks #lists used here , 
   
-  tasks = [t for t in tasks if t["id"] != task_id]
+  
+  tasks = [t for t in tasks if t["id"] != task_id] #keeps only those which doesnt match the task_id , deltes the rest if them / donest add them
   
 def toggle_task(task_id):
   

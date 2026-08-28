@@ -103,7 +103,7 @@ def showWidget(window):
                     
                 tm.addTask(title) #add task
                 refresh_task_list()
-                task_window.destroy
+                task_window.destroy()
                 entry.delete(0, tk.END) #clear the entry
   
   
@@ -116,11 +116,13 @@ def showWidget(window):
       
       
     
-  addTaskButton= tk.Button(window,
-                           text="Add Task",
+  addTaskButton= tk.Button(header,
+                           text=" + New Task",
                            bg="#C8DFDB",
                            fg="#3368A0",
                            command= open_task_window)
-  addTaskButton.pack()
+  addTaskButton.pack(side="right", padx=10, pady=5)
+  
+  refresh_task_list()
   
   
