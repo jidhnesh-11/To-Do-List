@@ -2,8 +2,9 @@
 #contains all widgets and calls functions from taak_manager module!
 
 import tkinter as tk
-import task_manger as tm #now can use CRUD functions
+import task_manager as tm #now can use CRUD functions
 from tkinter import ttk 
+from tkinter import messagebox
 
 def showWidget(window):
   
@@ -51,16 +52,47 @@ def showWidget(window):
   
   #main treeview inside the "content" frame!
   tree= ttk.Treeview(content,
-                     columns =("check","title"),
+                     columns =("check","title","delete"),
                      show="headings")
+  
   tree.heading("check",text="")
-  tree.heading("title",text="task")
+  tree.heading("title",text="Task")
+  tree.heading("delete", text="") #no heading for del icon
   
   tree.column("check",width=40,anchor="center") #attributes for cols
   tree.column("title",width= 300,anchor="w")  #attri for cols
+  tree.column("delete", width=50, anchor="center")
   
   tree.pack(fill="both", expand=True)
   
+  def on_tree_click(event):
+    
+    region= tree.identify("region", event.x, event.y)
+    if region != "cell":
+      return
+    
+    column = tree.identify_column(event.x)  # return #1 , #2 , #3
+    row_iid = tree.identify_row(event.y)    #returns iid of clicked row
+    
+    if not row_iid:
+      return
+    
+    task_id = int(row_iid)
+    
+    if column == "#3":
+    
+      confirm = messagebox.askyesno("Delete task","Delete This Task?") # returns True if yes else False
+      
+      if confirm:
+        tm.delete_task(task_id)
+        refresh_task_list()
+        
+    if column == "#1":
+      
+      tm.toggle_task(task_id)
+      refresh_task_list()
+    
+  tree.bind("<Button-1>", on_tree_click)
 
 
   #refresh the tasks and show in the "content" frame
@@ -78,7 +110,7 @@ def showWidget(window):
         "",
         "end",
         iid= str(task["id"]),
-        values=(check_symbol, task["title"])
+        values=(check_symbol, task["title"], "🗑")
       )
 
   
@@ -103,8 +135,9 @@ def showWidget(window):
                     
                 tm.addTask(title) #add task
                 refresh_task_list()
-                task_window.destroy()
                 entry.delete(0, tk.END) #clear the entry
+                task_window.destroy()
+               
   
   
       button=tk.Button(task_window,
