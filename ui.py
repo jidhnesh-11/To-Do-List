@@ -49,32 +49,52 @@ def showWidget(window):
                             command=show_all_tasks)
   btn_all_tasks.pack(fill="x", pady=5)
   
-   #main treeview inside the "content" frame!
+  #main treeview inside the "content" frame!
   tree= ttk.Treeview(content,
                      columns =("check","title"),
                      show="headings")
   tree.heading("check",text="")
   tree.heading("title",text="task")
   
-  tree.column("check",width=40,anchor="center")
-  tree.column("title",width= 300,anchor="w")
+  tree.column("check",width=40,anchor="center") #attributes for cols
+  tree.column("title",width= 300,anchor="w")  #attri for cols
   
   tree.pack(fill="both", expand=True)
   
-  label=tk.Label(window,
-                 text="To Do List",
-                 bg="teal",
-                 fg="black")
-  label.pack(padx=10,pady=10)
 
+
+  #refresh the tasks and show in the "content" frame
   
+  def refresh_task_list():
+    
+    for item in tree.get_children(): #deleete the tasks
+      tree.delete(item)
+      
+    for task in tm.getTasks(): # show tasks wth checkbox icon!
+      
+      check_symbol = "☑" if task["done"] else "☐"
+      tree.insert(
+        
+        "",
+        "end",
+        iid= str(task["id"]),
+        values=(check_symbol, task["title"])
+      )
 
   
   def open_task_window(): #to open new toplevel to add tasks!/
       
       task_window= tk.Toplevel(window)
       task_window.title(" Add Tasks ")
-      task_window.geometry("300x300")
+      task_window.geometry("300x200")
+      
+      tk.Label(task_window,
+                           text="Add New Task!",
+                           bg="white",
+                           fg="Black").pack(padx=5,pady=5)
+      
+      entry = tk.Entry(task_window, bg="#FDF4D2")
+      entry.pack(pady=5)
       
       def addTaskTopLevel():  
               title= entry.get().strip()
@@ -82,26 +102,11 @@ def showWidget(window):
               if title:
                     
                 tm.addTask(title) #add task
-                    
+                refresh_task_list()
+                task_window.destroy
                 entry.delete(0, tk.END) #clear the entry
-                    
-                all_tasks ="\n".join(tm.getTasks()) #to display the list thats contains all the task in tm
-                    
-                display_label.config(text=all_tasks)
-      
-      tk.Label(task_window,
-                     text="Add New Task!",
-                     bg="white",
-                     fg="Black").pack(padx=5,pady=5)
-      
-      
-      
-      
-      entry=tk.Entry(task_window,
-                       bg="#FDF4D2"
-                       )
-      entry.pack()
-      
+  
+  
       button=tk.Button(task_window,
                            text="Add Task!!!!!!",
                            bg="#28E4C4",
@@ -109,15 +114,6 @@ def showWidget(window):
                            command= addTaskTopLevel)
       button.pack()
       
-      display_label=tk.Label(task_window,
-                         text="       ",
-                         bg="#FDF4D2",
-                         fg="#AF719D")
-      display_label.pack(padx=5 ,pady=5)
-      
-      
-      
-       
       
     
   addTaskButton= tk.Button(window,
@@ -128,15 +124,3 @@ def showWidget(window):
   addTaskButton.pack()
   
   
-
-    
-    
-  
-  
-  
-  
-  
-  
-  
-
-    
