@@ -35,14 +35,26 @@ def showWidget(window):
                                     state="readonly")
       
       priority_combo.set("Low") #default is low!
-      priority_combo.pack()
+      priority_combo.pack(padx=5, pady=5)
+      
+      
+      due_date_label = tk.Label(task_window,
+                                text="Due date ( YYYY-MM-DD ): ")
+      due_date_label.pack( padx=5,pady=5)
+      
+      due_date_entry = tk.Entry(task_window)
+      
+      due_date_entry.insert(0, datetime.now().strftime("%Y-%m-%d")  ) # predef values to match toadys day
+      due_date_entry.pack(padx=5,pady=5)
       
       def addTaskTopLevel():  
-              title= entry.get().strip()
-                  
+              title= entry.get().strip() #get the task
+              priority= priority_combo.get().lower()  #get the priority (lol i forgot braces and it returned the method :P)
+              due_date= due_date_entry.get()    #get the due date
+              
               if title:
                     
-                tm.addTask(title) #add task
+                tm.addTask(title, due_date, priority ) #add task
                 refresh_task_list()
                 entry.delete(0, tk.END) #clear the entry
                 task_window.destroy()
@@ -144,7 +156,7 @@ def showWidget(window):
   tree.column("check",width=40,anchor="center") #attributes for cols
   tree.column("title",width= 300,anchor="w")  #attri for cols
   
-  tree.column("due_date", width=40, anchor="center")
+  tree.column("due_date", width=100, anchor="center")
   tree.column("priority", width=40, anchor="center")
   tree.column("delete", width=50, anchor="center")
   
@@ -165,7 +177,7 @@ def showWidget(window):
     
     task_id = int(row_iid)
     
-    if column == "#3":
+    if column == "#5":
     
       confirm = messagebox.askyesno("Delete task","Delete This Task?") # returns True if yes else False
       
@@ -196,7 +208,7 @@ def showWidget(window):
         "",
         "end",
         iid= str(task["id"]),
-        values=(check_symbol, task["title"], "🗑")
+        values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
       )
 
   
