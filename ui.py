@@ -16,7 +16,7 @@ def showWidget(window):
       
       task_window= tk.Toplevel(window)
       task_window.title(" Add Tasks ")
-      task_window.geometry("300x150")
+      task_window.geometry("300x350")
       
       tk.Label(task_window,
                            text="Add New Task!",
