@@ -10,6 +10,11 @@ from datetime import datetime #to show date (due date and toadys current date!!)
 
 
 def showWidget(window):
+  current_date= datetime.now().strftime("%A , %d %B %Y") #today's date
+  current_date_formatted= datetime.now().strftime("%Y-%m-%d")  # YYYY-MM-DD
+  
+  current_view= "all" 
+  
   
   ############# NEW WINDOW Top level ##############
   def open_task_window(): #to open new toplevel to add tasks!/
@@ -44,7 +49,7 @@ def showWidget(window):
       
       due_date_entry = tk.Entry(task_window)
       
-      due_date_entry.insert(0, datetime.now().strftime("%Y-%m-%d")  ) # predef values to match toadys day
+      due_date_entry.insert(0, current_date_formatted  ) # predef values to match toadys day
       due_date_entry.pack(padx=5,pady=5)
       
       def addTaskTopLevel():  
@@ -76,11 +81,21 @@ def showWidget(window):
                   height=50)
   header.pack(fill="x")
   
-  today= datetime.now().strftime("%A , %d %B %Y") #today's date
+  
   
   tk.Label(header,
                  fg="black",
-                 text= today).pack(side="left", padx=100) #to show todays date!!
+                 text= current_date).pack(side="left", padx=100) #to show todays date!!
+  
+  view_label = tk.Label(header,
+                        text="All Tasks",
+                        bg="black",
+                        fg="white",
+                        font=("Arial",12,"bold")
+                        )
+  view_label.pack(side="left", padx=50)
+  
+  
   
   '''
   datetime module eg!
@@ -114,12 +129,26 @@ def showWidget(window):
                     bg="#FFFCE1")
   content.pack(side="right", fill="both",expand=True)
   
-  def show_todays_tasks():
-    print("Showing Toadys tasks")
+  
+  
+  def change_view(view):
     
-  def show_all_tasks():
-    print("Showing all tasks")
-   
+    nonlocal current_view
+    
+    #default view
+    
+    
+    
+    '''
+    Why nonlocal?
+    Because current_view is defined in the enclosing function showWidget(), not in the global scope. The nonlocal keyword tells Python to modify that variable instead of creating a new local one!!
+    '''
+    
+    current_view = view
+    view_label.config(text= current_view + " Tasks") # formatting is missing but good for now! :P , it chnages according to current page , lol here was a bug i tried to place this out of this func()
+    
+    
+    refresh_task_list()  #refresh and show evrything (what list holds) again!!
    
   # +add task btn
   addTaskButton= tk.Button(sidebar,
@@ -132,15 +161,34 @@ def showWidget(window):
   #button to show toadys task in the sideframe  
   btn_today = tk.Button(sidebar,
                         text=" Toaday's Tasks ",
-                        command=show_todays_tasks)
+                        command= lambda:change_view("today"))
   btn_today.pack(fill="x", pady=5)
+  
+  '''
+  Why lambda?
+  Button commands expect a function without arguments. lambda: change_view("today") creates an anonymous function that, when clicked, calls change_view with the correct argument
+  '''
+  
+  
   
   #button to show All tasks in the sideframe
   btn_all_tasks = tk.Button(sidebar,
                             text="All Tasks ",
-                            command=show_all_tasks)
+                            command=lambda:change_view("all"))
   btn_all_tasks.pack(fill="x", pady=5)
   
+  btn_completed = tk.Button(sidebar,
+                              text="Completed ",
+                              command=lambda:change_view("completed"))
+  btn_completed.pack(fill="x", pady=5)
+    
+  btn_settings = tk.Button(sidebar,
+                              text="Settings ",
+                              command=lambda:change_view("settings"))
+  btn_settings.pack(fill="x", pady=5)
+   
+  
+    
   #main treeview inside the "content" frame!
   tree= ttk.Treeview(content,
                      columns =("check","title","due_date","priority","delete"),
@@ -200,16 +248,25 @@ def showWidget(window):
     for item in tree.get_children(): #deleete the tasks
       tree.delete(item)
       
-    for task in tm.getTasks(): # show tasks wth checkbox icon!
+     # show tasks wth checkbox icon!
       
-      check_symbol = "☑" if task["done"] else "☐"
-      tree.insert(
+    all_task_to_show = tm.getTasks()  # create new list by storing all the tasks!
+      
+    if current_view =="today":
+        all_task_to_show= [t for t in all_task_to_show if t["due_date"]== current_date_formatted] # to filter and see toadys tasks!
+       
+    elif current_view == "completed":
+        all_task_to_show = [t for t in all_task_to_show if t["done"]]
         
-        "",
-        "end",
-        iid= str(task["id"]),
-        values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
-      )
+    for task in all_task_to_show:  #created new list acc to the current_view!!
+        check_symbol = "☑" if task["done"] else "☐"
+        tree.insert(
+          
+          "",
+          "end",
+          iid= str(task["id"]),
+          values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
+        )
 
   
   
