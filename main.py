@@ -6,7 +6,7 @@ import ui
 
 window=tk.Tk()
 
-window.geometry("500x500")
+window.geometry("900x500")
 
 ui.showWidget(window) #passes the window into ui
 tk.mainloop()
