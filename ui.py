@@ -26,6 +26,17 @@ def showWidget(window):
       entry = tk.Entry(task_window, bg="#FDF4D2")
       entry.pack(pady=5)
       
+      priority_label = tk.Label(task_window,
+                                text="Priority- ")
+      priority_label.pack()
+      
+      priority_combo = ttk.Combobox(task_window,
+                                    values= ("Low" , "Medium" , "High"),
+                                    state="readonly")
+      
+      priority_combo.set("Low") #default is low!
+      priority_combo.pack()
+      
       def addTaskTopLevel():  
               title= entry.get().strip()
                   
