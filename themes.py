@@ -5,7 +5,7 @@ header_color = "#3368A0"
 #current_date = "#C8DFDB"
 current_date= "#FDF4D2"
 
-content_BG= "#F2EFE7"
+content_BG= "#FDF4D2"
 
 sidebar_BG = "#66A3BF"
 

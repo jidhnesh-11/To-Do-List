@@ -25,8 +25,8 @@ def showWidget(window):
       
       task_window= tk.Toplevel(window)
       task_window.title(" Add Tasks ")
-      task_window.geometry("300x350")
-      
+      task_window.geometry("400x450")
+      task_window.resizable(False , False)
       task_window.configure(bg= th.toplevel_BG )
       
       card = tk.Frame(task_window,
@@ -90,28 +90,72 @@ def showWidget(window):
       
   ############# endddddddddddddddddddddd #############
   
-  #header in a frame
-  header=tk.Frame(window,
-                  bg= th.header_color,
-                  height=50,
-                  relief= "sunken")
+    
+  #sidebar in a frame  LEFT SIDE!!
+  sidebar= tk.Frame(window,   #main frame!!!!
+                      bg= th.sidebar_BG,
+                      width=250)
+    
+  sidebar.pack_propagate(False) # tkinter knows to use the width /height rather than applying default locked in frame
+    
+  sidebar.pack(side= "left",fill="y")
+    
+    
+    
+  # right side that holds content and header!!!
+  right_area = tk.Frame(window,
+                          bg= th.content_BG)
+  right_area.pack(side="right", fill="both", expand=True)
+    
+  #actual content!!! inside the "main frame"
+  
+  header=tk.Frame(right_area,
+                    bg= th.header_color,
+                    height=80,
+                    relief= "sunken",
+                    padx=5,
+                    pady=5)
   header.pack_propagate(False) #again to not use default hegiht and width but for header
-  header.pack(fill="x")
+  header.pack(fill="x") 
+  '''
+  pfp = tk.PhotoImage(file= 'cat_pfp.png').subsample(9,9) #built in library to resizee imageeeeee!!
+  '''
+  pfp = tk.PhotoImage(width=20, height=20)
+  pfp.put("red", to=(0,0,20,20))
+    
+  usr_photo_name = tk.Label(sidebar,
+                            image= pfp,
+                            text="Jidhnesh",
+                            compound='left',
+                            bg= th.sidebar_BG,
+                            fg="white",
+                            font=("Seouge UI",15,"bold")) 
+  usr_photo_name.pack(padx=5,pady=5)
+  
+  content= tk.Frame(right_area,
+                      bg= th.content_BG,
+                      relief="flat")
+  content.pack( fill="both",expand=True, padx=10, pady=10)
+    
+  #header in a frame
   
   
-  
-  tk.Label(header,
-                 fg=th.current_date,
-                 bg= th.header_color,
-                 text= current_date).pack(side="left", padx=100) #to show todays date!!
   
   view_label = tk.Label(header,
-                        text="All Tasks",
-                        bg="black",
-                        fg="white",
-                        font=("Arial",12,"bold")
-                        )
-  view_label.pack(side="left", padx=50)
+                          text="All Tasks",
+                          bg=th.header_color,
+                          fg="white",
+                          font=("Seouge UI",15,"bold")
+                          )
+  view_label.pack(side="left", padx=20)
+    
+  date_label= tk.Label(header,
+                 fg=th.current_date,
+                 bg= th.header_color,
+                 text= current_date,
+                 font=("Seouge UI",15,"bold"))
+  date_label.pack(side="right", padx=20) #to show todays date!!
+  
   
   
   
@@ -129,29 +173,7 @@ def showWidget(window):
   %Y  Full year (2026)
   '''
   
-  #main area in a frame
-  main= tk.Frame(window,
-                 bg="#FDF4D2",
-                 relief="sunken")
-  main.pack(fill="both",expand=True)
-  
-  #sidebar in a frame
-  sidebar= tk.Frame(window,   #main frame!!!!
-                    bg= th.sidebar_BG,
-                    width=150)
-  
-  sidebar.pack_propagate(False) # tkinter knows to use the width /height rather than applying default locked in frame
-  
-  sidebar.pack(side= "left",fill="y")
-  
-  
-  #actual content!!! inside the "main frame"
-  
-  content= tk.Frame(main,
-                    bg= th.content_BG,
-                    relief="sunken")
-  content.pack(side="right", fill="both",expand=True, padx=10, pady=10)
-  
+ 
   
   
   def change_view(view):
@@ -167,16 +189,16 @@ def showWidget(window):
     #default view
     current_view = view
     
-    if view != "Settings":
+    view_titles= {
       
-      view_label.config(text= current_view + " Tasks") # formatting is missing but good for now! :P , it chnages according to current page , lol here was a bug i tried to place this out of this func()
-      
-      
-      refresh_task_list()  #refresh and show evrything (what list holds) again!!
-      
-    elif view == "Settings":
-      view_label.config(text= "Settings")
-      refresh_task_list()
+      "today": "Today's Tasks",
+      "all": "All Tasks",
+      "completed": "Completed Tasks",
+      "settings": "Settings"
+    }
+    
+    view_label.config(text=view_titles.get(view,"Tasks"))
+    
       
       
   # +add task btn
@@ -206,17 +228,17 @@ def showWidget(window):
                             activebackground= "#BDCDD6",
                             bg="#EEE9DA",
                             fg="#6096B4",
-                            command=lambda:change_view("All"))
+                            command=lambda:change_view("all"))
   btn_all_tasks.pack(fill="x", pady=5)
   
   btn_completed = tk.Button(sidebar,
                               text="Completed ",
-                              command=lambda:change_view("Completed"))
+                              command=lambda:change_view("completed"))
   btn_completed.pack(fill="x", pady=5)
     
   btn_settings = tk.Button(sidebar,
                               text="Settings ",
-                              command=lambda:change_view("Settings"))
+                              command=lambda:change_view("settings"))
   btn_settings.pack(fill="x", pady=5)
    
   
@@ -284,10 +306,10 @@ def showWidget(window):
       
     all_task_to_show = tm.getTasks()  # create new list by storing all the tasks!
       
-    if current_view =="Today":
+    if current_view =="today":
         all_task_to_show= [t for t in all_task_to_show if t["due_date"]== current_date_formatted] # to filter and see toadys tasks!
        
-    elif current_view == "Completed":
+    elif current_view == "completed":
         all_task_to_show = [t for t in all_task_to_show if t["done"]]
         
     for task in all_task_to_show:  #created new list acc to the current_view!!
