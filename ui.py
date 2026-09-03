@@ -126,20 +126,36 @@ def showWidget(window):
                  height=2)
   sep1.pack(fill="x", padx=10, pady=5)
     
+  # add frame to hold add task button!!
+  
+  add_frame = tk.Frame(sidebar,
+                       bg=th.sidebar_BG)
+  
+  add_frame.pack(fill="x", padx=10,pady=5)
+  
   #task butttonnnnnnnnnn!!
-  
-  addTaskButton= tk.Button(sidebar,
-                             text=" + New Task ",
-                             bg="#C8DFDB",
-                             fg="#3368A0",
-                             width=30,
-                             command= open_task_window)
+    
+  addTaskButton= tk.Button(add_frame,
+                               text=" + New Task ",
+                               bg="#C8DFDB",
+                               fg="#3368A0",
+                               width=30,
+                               command= open_task_window)
   addTaskButton.pack(padx=5,pady=5)
-   
+     
   #2nd separtor lineee
-  
+    
   sep2 = tk.Frame(sidebar, bg="#E3F2FD", height=2)
   sep2.pack(fill="x", padx=10, pady=5)
+    
+  
+  #nav Frame that holds all the 4 buttons
+  
+  nav_frame = tk.Frame(sidebar,
+                       bg=th.sidebar_BG)
+  nav_frame.pack(fill="x", padx=10,pady=5)
+  
+
   
   # right side that holds content and header!!!
   right_area = tk.Frame(window,
@@ -161,11 +177,8 @@ def showWidget(window):
   content= tk.Frame(right_area,
                       bg= th.content_BG,
                       relief="flat")
-  content.pack( fill="both",expand=True, padx=10, pady=10)
-    
-  #header in a frame
-  
-  
+  content.pack( fill="both",expand=True, padx=15, pady=15)
+     
   
   view_label = tk.Label(header,
                           text="All Tasks",
@@ -182,9 +195,7 @@ def showWidget(window):
                  font=("Seouge UI",15,"bold"))
   date_label.pack(side="right", padx=20) #to show todays date!!
   
-  
-  
-  
+    
   '''
   datetime module eg!
   today = datetime.now().strftime("%A, %d %B %Y")
@@ -199,12 +210,7 @@ def showWidget(window):
   %Y  Full year (2026)
   '''
   
- 
-  
-  
   def change_view(view):
-    
-    
     
     nonlocal current_view
 
@@ -224,12 +230,10 @@ def showWidget(window):
     }
     
     view_label.config(text=view_titles.get(view,"Tasks"))
-    
-    
   
-  
+ 
   #button to show toadys task in the sideframe  
-  btn_today = tk.Button(sidebar,
+  btn_today = tk.Button(nav_frame,
                         text=" Toaday's Tasks ",
                         width=30,
                         command= lambda:change_view("Today"))
@@ -243,7 +247,7 @@ def showWidget(window):
   
   
   #button to show All tasks in the sideframe
-  btn_all_tasks = tk.Button(sidebar,
+  btn_all_tasks = tk.Button(nav_frame,
                             text="All Tasks ",
                             activebackground= "#BDCDD6",
                             bg="#EEE9DA",
@@ -252,19 +256,21 @@ def showWidget(window):
                             command=lambda:change_view("all"))
   btn_all_tasks.pack(padx=5, pady=5)
   
-  btn_completed = tk.Button(sidebar,
+  btn_completed = tk.Button(nav_frame,
                               text="Completed ",
                               width=30,
                               command=lambda:change_view("completed"))
   btn_completed.pack(padx=5, pady=5)
     
-  btn_settings = tk.Button(sidebar,
+  btn_settings = tk.Button(nav_frame,
                               text="Settings ",
                               width=30,
                               command=lambda:change_view("settings"))
   btn_settings.pack(padx=5, pady=5)
    
-  
+   #3rd sep linee
+  sep3 = tk.Frame(sidebar, bg="#E3F2FD", height=2)
+  sep3.pack(fill="x", padx=10, pady=5)
     
   #main treeview inside the "content" frame!
   tree= ttk.Treeview(content,
