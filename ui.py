@@ -100,8 +100,47 @@ def showWidget(window):
     
   sidebar.pack(side= "left",fill="y")
     
+  #framesss of sidebar!!
+  
+  profile_frame = tk.Frame(sidebar,
+                           bg=th.sidebar_BG)
+  profile_frame.pack(fill="x", padx= 10, pady=(10,5))  
+  
+  pfp = tk.PhotoImage(file= 'cat_pfp.png').subsample(7,7) #built in library to resizee imageeeeee!!
     
+  window.pfp = pfp # keeps the referenced image instead of deleting it , if not used the image isnt rendered lol
+  
+  usr_photo_name = tk.Label(profile_frame,
+                              image= pfp,
+                              text="   Jidhnesh",
+                              compound='left',
+                              bg= th.sidebar_BG,
+                              fg="white",
+                              font=("Seouge UI",15)) 
+  usr_photo_name.pack(anchor='w',padx=10,pady=10)
+  
+  #separator lineeeeee!
+  
+  sep1= tk.Frame(sidebar,
+                 bg= "#E3F2FD",
+                 height=2)
+  sep1.pack(fill="x", padx=10, pady=5)
     
+  #task butttonnnnnnnnnn!!
+  
+  addTaskButton= tk.Button(sidebar,
+                             text=" + New Task ",
+                             bg="#C8DFDB",
+                             fg="#3368A0",
+                             width=30,
+                             command= open_task_window)
+  addTaskButton.pack(padx=5,pady=5)
+   
+  #2nd separtor lineee
+  
+  sep2 = tk.Frame(sidebar, bg="#E3F2FD", height=2)
+  sep2.pack(fill="x", padx=10, pady=5)
+  
   # right side that holds content and header!!!
   right_area = tk.Frame(window,
                           bg= th.content_BG)
@@ -118,19 +157,6 @@ def showWidget(window):
   header.pack_propagate(False) #again to not use default hegiht and width but for header
   header.pack(fill="x") 
   
-  pfp = tk.PhotoImage(file= 'cat_pfp.png').subsample(7,7) #built in library to resizee imageeeeee!!
-  
-
-  
-  window.pfp = pfp # keeps the referenced image instead of deleting it , if not used the image isnt rendered lol
-  usr_photo_name = tk.Label(sidebar,
-                            image= pfp,
-                            text="   Jidhnesh",
-                            compound='left',
-                            bg= th.sidebar_BG,
-                            fg="white",
-                            font=("Seouge UI",15)) 
-  usr_photo_name.pack(anchor='w',padx=10,pady=10)
   
   content= tk.Frame(right_area,
                       bg= th.content_BG,
@@ -199,21 +225,15 @@ def showWidget(window):
     
     view_label.config(text=view_titles.get(view,"Tasks"))
     
-      
-      
-  # +add task btn
-  addTaskButton= tk.Button(sidebar,
-                           text=" + New Task ",
-                           bg="#C8DFDB",
-                           fg="#3368A0",
-                           command= open_task_window)
-  addTaskButton.pack(fill="x",pady=5)
+    
+  
   
   #button to show toadys task in the sideframe  
   btn_today = tk.Button(sidebar,
                         text=" Toaday's Tasks ",
+                        width=30,
                         command= lambda:change_view("Today"))
-  btn_today.pack(fill="x", pady=5)
+  btn_today.pack(padx=5, pady=5)
   
   '''
   Why lambda?
@@ -228,18 +248,21 @@ def showWidget(window):
                             activebackground= "#BDCDD6",
                             bg="#EEE9DA",
                             fg="#6096B4",
+                            width=30,
                             command=lambda:change_view("all"))
-  btn_all_tasks.pack(fill="x", pady=5)
+  btn_all_tasks.pack(padx=5, pady=5)
   
   btn_completed = tk.Button(sidebar,
                               text="Completed ",
+                              width=30,
                               command=lambda:change_view("completed"))
-  btn_completed.pack(fill="x", pady=5)
+  btn_completed.pack(padx=5, pady=5)
     
   btn_settings = tk.Button(sidebar,
                               text="Settings ",
+                              width=30,
                               command=lambda:change_view("settings"))
-  btn_settings.pack(fill="x", pady=5)
+  btn_settings.pack(padx=5, pady=5)
    
   
     

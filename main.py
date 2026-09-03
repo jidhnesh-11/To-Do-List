@@ -11,4 +11,4 @@ window.geometry("900x500")
 window.state('zoomed')
 
 ui.showWidget(window) #passes the window into ui
-tk.mainloop()
+tk.mainloop() 
