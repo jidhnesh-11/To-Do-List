@@ -117,20 +117,20 @@ def showWidget(window):
                     pady=5)
   header.pack_propagate(False) #again to not use default hegiht and width but for header
   header.pack(fill="x") 
-  '''
-  pfp = tk.PhotoImage(file= 'cat_pfp.png').subsample(9,9) #built in library to resizee imageeeeee!!
-  '''
-  pfp = tk.PhotoImage(width=20, height=20)
-  pfp.put("red", to=(0,0,20,20))
-    
+  
+  pfp = tk.PhotoImage(file= 'cat_pfp.png').subsample(7,7) #built in library to resizee imageeeeee!!
+  
+
+  
+  window.pfp = pfp # keeps the referenced image instead of deleting it , if not used the image isnt rendered lol
   usr_photo_name = tk.Label(sidebar,
                             image= pfp,
-                            text="Jidhnesh",
+                            text="   Jidhnesh",
                             compound='left',
                             bg= th.sidebar_BG,
                             fg="white",
-                            font=("Seouge UI",15,"bold")) 
-  usr_photo_name.pack(padx=5,pady=5)
+                            font=("Seouge UI",15)) 
+  usr_photo_name.pack(anchor='w',padx=10,pady=10)
   
   content= tk.Frame(right_area,
                       bg= th.content_BG,
