@@ -255,7 +255,7 @@ def showWidget(window):
                             width=30,
                             command=lambda:change_view("all"))
   btn_all_tasks.pack(padx=5, pady=5)
-  
+   
   btn_completed = tk.Button(nav_frame,
                               text="Completed ",
                               width=30,
