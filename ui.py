@@ -2,9 +2,13 @@
 #contains all widgets and calls functions from taak_manager module!
 
 import tkinter as tk
+
 import task_manager as tm #now can use CRUD functions
+import themes as th
+
 from tkinter import ttk 
 from tkinter import messagebox
+
 
 from datetime import datetime #to show date (due date and toadys current date!!)
 
@@ -23,31 +27,42 @@ def showWidget(window):
       task_window.title(" Add Tasks ")
       task_window.geometry("300x350")
       
-      tk.Label(task_window,
+      task_window.configure(bg= th.toplevel_BG )
+      
+      card = tk.Frame(task_window,
+                      bg="white",
+                      padx=30,
+                      pady=30,
+                      highlightthickness=2,
+                      highlightbackground="#E5E7EB")
+      card.pack(fill="both", expand=True, padx=15, pady=15)
+      
+      tk.Label(card,
                            text="Add New Task!",
+                           font= ("Seouge UI" , 12 , "bold"),
                            bg="white",
-                           fg="Black").pack(padx=5,pady=5)
+                           fg=th.add_task_label_color).pack(padx=5,pady=5)
       
-      entry = tk.Entry(task_window, bg="#FDF4D2")
-      entry.pack(pady=5)
+      entry = tk.Entry(card, bg="#FDF4D2")
+      entry.pack(pady=5, padx=5)
       
-      priority_label = tk.Label(task_window,
+      priority_label = tk.Label(card,
                                 text="Priority- ")
-      priority_label.pack()
+      priority_label.pack(pady=5, padx=5)
       
-      priority_combo = ttk.Combobox(task_window,
+      priority_combo = ttk.Combobox(card,
                                     values= ("Low" , "Medium" , "High"),
-                                    state="readonly")
+                                    state="readonly") #comboBox!!
       
       priority_combo.set("Low") #default is low!
       priority_combo.pack(padx=5, pady=5)
       
       
-      due_date_label = tk.Label(task_window,
+      due_date_label = tk.Label(card,
                                 text="Due date ( YYYY-MM-DD ): ")
       due_date_label.pack( padx=5,pady=5)
       
-      due_date_entry = tk.Entry(task_window)
+      due_date_entry = tk.Entry(card)
       
       due_date_entry.insert(0, current_date_formatted  ) # predef values to match toadys day
       due_date_entry.pack(padx=5,pady=5)
@@ -66,7 +81,7 @@ def showWidget(window):
                
   
   
-      button=tk.Button(task_window,
+      button=tk.Button(card,
                            text="Add Task!!!!!!",
                            bg="#28E4C4",
                            fg="#071A2F",
@@ -77,14 +92,17 @@ def showWidget(window):
   
   #header in a frame
   header=tk.Frame(window,
-                  bg="teal",
-                  height=50)
+                  bg= th.header_color,
+                  height=50,
+                  relief= "sunken")
+  header.pack_propagate(False) #again to not use default hegiht and width but for header
   header.pack(fill="x")
   
   
   
   tk.Label(header,
-                 fg="black",
+                 fg=th.current_date,
+                 bg= th.header_color,
                  text= current_date).pack(side="left", padx=100) #to show todays date!!
   
   view_label = tk.Label(header,
@@ -100,7 +118,7 @@ def showWidget(window):
   '''
   datetime module eg!
   today = datetime.now().strftime("%A, %d %B %Y")
-  print(today)   # Output: Saturday, 30 August 2026
+  print(today)  --- Output: Saturday, 30 August 2026
   
   %A  Full weekday name (Saturday)
 
@@ -113,43 +131,54 @@ def showWidget(window):
   
   #main area in a frame
   main= tk.Frame(window,
-                 bg="#FDF4D2")
+                 bg="#FDF4D2",
+                 relief="sunken")
   main.pack(fill="both",expand=True)
   
   #sidebar in a frame
-  sidebar= tk.Frame(main,   #main frame!!!!
-                    bg="#C8DFDB",
+  sidebar= tk.Frame(window,   #main frame!!!!
+                    bg= th.sidebar_BG,
                     width=150)
+  
+  sidebar.pack_propagate(False) # tkinter knows to use the width /height rather than applying default locked in frame
+  
   sidebar.pack(side= "left",fill="y")
   
   
   #actual content!!! inside the "main frame"
   
   content= tk.Frame(main,
-                    bg="#FFFCE1")
-  content.pack(side="right", fill="both",expand=True)
+                    bg= th.content_BG,
+                    relief="sunken")
+  content.pack(side="right", fill="both",expand=True, padx=10, pady=10)
   
   
   
   def change_view(view):
     
+    
+    
     nonlocal current_view
-    
-    #default view
-    
-    
-    
+
     '''
     Why nonlocal?
     Because current_view is defined in the enclosing function showWidget(), not in the global scope. The nonlocal keyword tells Python to modify that variable instead of creating a new local one!!
     '''
-    
+    #default view
     current_view = view
-    view_label.config(text= current_view + " Tasks") # formatting is missing but good for now! :P , it chnages according to current page , lol here was a bug i tried to place this out of this func()
     
-    
-    refresh_task_list()  #refresh and show evrything (what list holds) again!!
-   
+    if view != "Settings":
+      
+      view_label.config(text= current_view + " Tasks") # formatting is missing but good for now! :P , it chnages according to current page , lol here was a bug i tried to place this out of this func()
+      
+      
+      refresh_task_list()  #refresh and show evrything (what list holds) again!!
+      
+    elif view == "Settings":
+      view_label.config(text= "Settings")
+      refresh_task_list()
+      
+      
   # +add task btn
   addTaskButton= tk.Button(sidebar,
                            text=" + New Task ",
@@ -161,7 +190,7 @@ def showWidget(window):
   #button to show toadys task in the sideframe  
   btn_today = tk.Button(sidebar,
                         text=" Toaday's Tasks ",
-                        command= lambda:change_view("today"))
+                        command= lambda:change_view("Today"))
   btn_today.pack(fill="x", pady=5)
   
   '''
@@ -174,17 +203,20 @@ def showWidget(window):
   #button to show All tasks in the sideframe
   btn_all_tasks = tk.Button(sidebar,
                             text="All Tasks ",
-                            command=lambda:change_view("all"))
+                            activebackground= "#BDCDD6",
+                            bg="#EEE9DA",
+                            fg="#6096B4",
+                            command=lambda:change_view("All"))
   btn_all_tasks.pack(fill="x", pady=5)
   
   btn_completed = tk.Button(sidebar,
                               text="Completed ",
-                              command=lambda:change_view("completed"))
+                              command=lambda:change_view("Completed"))
   btn_completed.pack(fill="x", pady=5)
     
   btn_settings = tk.Button(sidebar,
                               text="Settings ",
-                              command=lambda:change_view("settings"))
+                              command=lambda:change_view("Settings"))
   btn_settings.pack(fill="x", pady=5)
    
   
@@ -225,7 +257,7 @@ def showWidget(window):
     
     task_id = int(row_iid)
     
-    if column == "#5":
+    if column == "#5": #del col
     
       confirm = messagebox.askyesno("Delete task","Delete This Task?") # returns True if yes else False
       
@@ -233,7 +265,7 @@ def showWidget(window):
         tm.delete_task(task_id)
         refresh_task_list()
         
-    if column == "#1":
+    if column == "#1": #check Box col
       
       tm.toggle_task(task_id)
       refresh_task_list()
@@ -252,10 +284,10 @@ def showWidget(window):
       
     all_task_to_show = tm.getTasks()  # create new list by storing all the tasks!
       
-    if current_view =="today":
+    if current_view =="Today":
         all_task_to_show= [t for t in all_task_to_show if t["due_date"]== current_date_formatted] # to filter and see toadys tasks!
        
-    elif current_view == "completed":
+    elif current_view == "Completed":
         all_task_to_show = [t for t in all_task_to_show if t["done"]]
         
     for task in all_task_to_show:  #created new list acc to the current_view!!
@@ -268,13 +300,7 @@ def showWidget(window):
           values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
         )
 
-  
-  
-      
-      
-    
 
-  
   refresh_task_list()
   
   

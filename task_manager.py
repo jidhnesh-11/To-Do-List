@@ -13,7 +13,7 @@ def addTask(title, due_date, priority):
     "title": title,
     "due_date": due_date,
     "priority": priority,
-    "done": False
+    "done": False  
   }
   
   tasks.append(task)
@@ -28,7 +28,7 @@ def delete_task(task_id):
   global tasks #lists used here , 
   
   
-  tasks = [t for t in tasks if t["id"] != task_id] #keeps only those which doesnt match the task_id , deltes the rest if them / donest add them
+  tasks = [t for t in tasks if t["id"] != task_id] #keeps only those which doesnt match the task_id , deltes the rest of them / donest add them
   
 def toggle_task(task_id):
   
