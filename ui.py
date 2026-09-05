@@ -179,7 +179,9 @@ def showWidget(window):
   # right side that holds content and header!!!
   right_area = tk.Frame(window,
                           bg= th.content_BG)
-  right_area.pack(side="right", fill="both", expand=True)
+  right_area.pack(side= "right", fill="both", expand= True)
+  right_area.grid_rowconfigure(1, weight=1)
+  right_area.grid_columnconfigure(0, weight=1)
     
   #actual content!!! inside the "main frame"
   
@@ -190,13 +192,13 @@ def showWidget(window):
                     padx=5,
                     pady=5)
   header.pack_propagate(False) #again to not use default hegiht and width but for header
-  header.pack(fill="x") 
+  header.grid(row=0, column=0, sticky="ew")
   
   
   content= tk.Frame(right_area,
                       bg= th.content_BG,
                       relief="flat")
-  content.pack( fill="both",expand=True, padx=15, pady=15)
+  content.grid(row=1, column=0, sticky="nsew", padx=15, pady=15)
      
   
   view_label = tk.Label(header,
@@ -229,6 +231,45 @@ def showWidget(window):
   %Y  Full year (2026)
   '''
   
+  status_bar = tk.Frame(right_area, bg=th.content_BG)
+  status_bar.grid(row=2, column=0, sticky="ew")
+
+  pending_label = tk.Label(status_bar, 
+                           text="Pending: 0", 
+                           bg=th.content_BG, 
+                           fg=th.current_date, 
+                           font=(th.font_name, 20,"bold"))
+  pending_label.pack(side="left", padx=10)
+
+  completed_label = tk.Label(status_bar, 
+                             text="Completed: 0", 
+                             bg=th.content_BG, 
+                             fg=th.current_date, 
+                             font=(th.font_name, 20, "bold"))
+  completed_label.pack(side="left", padx=10)
+
+  total_label = tk.Label(status_bar, 
+                         text="Total: 0", 
+                         bg=th.content_BG, 
+                         fg=th.current_date, 
+                         font=(th.font_name, 20,"bold"))
+  total_label.pack(side="left", padx=10)
+  
+  def update_status_bar():
+    
+    all_tasks = tm.getTasks()
+    total = len(all_tasks)
+    
+    completed= sum(1 for t in all_tasks if t["done"])
+    
+    pending = total - completed
+    
+    pending_label.config(text= f"Pending: {pending}")
+    completed_label.config(text=f"Completed: {completed}")
+    total_label.config(text=f"Total: {total}")
+  
+  update_status_bar()
+   
   #reset btn colors!!
   def reset_btn_colors():
     
@@ -441,6 +482,7 @@ def showWidget(window):
     else:
       all_task_to_show = [] #settings or other things wjere task arent necessary to show
     '''    
+    
     for task in all_task_to_show:  #created new list acc to the current_view!!
         check_symbol = "☑" if task["done"] else "☐"
         tree.insert(
@@ -450,8 +492,11 @@ def showWidget(window):
           iid= str(task["id"]),
           values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
         )
+    
+    update_status_bar() 
 
 
   refresh_task_list()
+  
   
   
