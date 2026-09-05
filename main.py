@@ -6,7 +6,7 @@ import ui
 
 window=tk.Tk()
 window.title("DoDoingDone")
-window.geometry("900x500")
+window.geometry("850x550")
 #window.attributes('-fullscreen', True)
 window.state('zoomed')
 

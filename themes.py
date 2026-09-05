@@ -3,7 +3,7 @@
 
 header_color = "#3368A0"
 #current_date = "#C8DFDB"
-current_date= "#FDF4D2"
+current_date= "#021526"
 
 content_BG= "#FDF4D2"
 
@@ -22,3 +22,7 @@ btn_bg= "#AEE2FF"
 
 #font= "Cascadia Mono SemiBold"
 font_name="Comic Sans MS"
+
+#top level card
+tl_color= "#66A3BF"
+tl_font_col = "#021526"

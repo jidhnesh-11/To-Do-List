@@ -25,50 +25,65 @@ def showWidget(window):
       
       task_window= tk.Toplevel(window)
       task_window.title(" Add Tasks ")
-      task_window.geometry("400x450")
+      task_window.geometry("450x350")
       task_window.resizable(False , False)
       task_window.configure(bg= th.toplevel_BG )
       
       card = tk.Frame(task_window,
-                      bg="white",
+                      bg="#66A3BF",
                       padx=30,
                       pady=30,
                       highlightthickness=2,
                       highlightbackground="#E5E7EB")
       card.pack(fill="both", expand=True, padx=15, pady=15)
+    
+      sep4 = tk.Frame(card, bg="#1A3644", height=3)
+      sep4.grid(row=0, column=0, columnspan=3, sticky="ew", padx=10, pady=5)
+
+      title_box = tk.Frame(card, bg= th.tl_color)
+      title_box.grid(row=1, column=0,columnspan=3, padx=5)
       
-      tk.Label(card,
-                           text="Add New Task!",
-                           bg="white",
-                           font=(th.font_name,12),
-                           fg=th.add_task_label_color).pack(padx=5,pady=5)
+      sep5 = tk.Frame(card, bg="#1A3644", height=3)
+      sep5.grid(row=2, column=0, columnspan=3, sticky="ew", padx=10, pady=5)
+
+      left_line = tk.Frame(title_box, bg= "#1A3644", width=3)
+      left_line.pack(side="left", fill="y", padx=(0, 10))
       
-      entry = tk.Entry(card, bg="#FDF4D2")
-      entry.pack(pady=5, padx=5)
+      title_label= tk.Label(title_box,
+                           text=" Add New Task! ",
+                           bg= th.tl_color,
+                           fg= th.tl_font_col,
+                           font=(th.font_name,15))
+      title_label.pack(side="left")
       
-      priority_label = tk.Label(card,
-                                font=(th.font_name,12),
-                                text="Priority- ")
-      priority_label.pack(pady=5, padx=5)
+      right_line = tk.Frame(title_box, bg= "#1A3644", width=3)
+      right_line.pack(side="left", fill="y", padx=(10, 0))
       
-      priority_combo = ttk.Combobox(card,
-                                    font=(th.font_name,12),
-                                    values= ("Low" , "Medium" , "High"),
-                                    state="readonly") #comboBox!!
-      
-      priority_combo.set("Low") #default is low!
-      priority_combo.pack(padx=5, pady=5)
+      # Label
+      tk.Label(card, text="Title:", bg=th.tl_color, fg=th.tl_font_col,
+         font=(th.font_name, 12,"bold")).grid(row=3, column=0, sticky="w", padx=5, pady=5)
+
+      # Entry
+      entry = tk.Entry(card, bg="#FDF4D2", width=30)
+      entry.grid(row=3, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
       
       
-      due_date_label = tk.Label(card,
-                                font=(th.font_name,12),
-                                text="Due date ( YYYY-MM-DD ): ")
-      due_date_label.pack( padx=5,pady=5)
+      tk.Label(card, text="Priority:", bg=th.tl_color, fg=th.tl_font_col,
+         font=(th.font_name, 12,"bold")).grid(row=4, column=0, sticky="w", padx=5, pady=5)
+
+      priority_combo = ttk.Combobox(card, font=(th.font_name,12),
+                              values=("Low","Medium","High"), state="readonly")
+      priority_combo.set("Low")
+      priority_combo.grid(row=4, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
       
-      due_date_entry = tk.Entry(card)
       
-      due_date_entry.insert(0, current_date_formatted  ) # predef values to match toadys day
-      due_date_entry.pack(padx=5,pady=5)
+      tk.Label(card, text="Due date:", bg=th.sidebar_BG, fg=th.tl_font_col,
+         font=(th.font_name, 12,"bold")).grid(row=5, column=0, sticky="w", padx=5, pady=5)
+
+      due_date_entry = tk.Entry(card, bg="#FDF4D2", width=30)
+      due_date_entry.insert(0, current_date_formatted)
+      due_date_entry.grid(row=5, column=1, columnspan=2, sticky="ew", padx=5, pady=5)
+      
       
       def addTaskTopLevel():  
               title= entry.get().strip() #get the task
@@ -84,13 +99,12 @@ def showWidget(window):
                
   
   
-      button=tk.Button(card,
-                           text="Add Task!!!!!!",
-                           bg="#28E4C4",
-                           fg="#071A2F",
-                           font=(th.font_name,12),
-                           command= addTaskTopLevel)
-      button.pack()
+      button = tk.Button(card, text="Add Task",
+                          bg= th.nav_btn_color,
+                          fg=th.btn_colors,                              width=30,
+                          font=(th.font_name,12,"bold"),
+                         command=addTaskTopLevel)
+      button.grid(row=6, column=0, columnspan=3, pady=15)
       
   ############# endddddddddddddddddddddd #############
   
@@ -188,8 +202,8 @@ def showWidget(window):
   view_label = tk.Label(header,
                           text="All Tasks",
                           bg=th.header_color,
-                          fg="white",
-                          font=(th.font_name,12)
+                          fg=th.current_date,
+                          font=(th.font_name,20,"bold")
                           )
   view_label.pack(side="left", padx=20)
     
@@ -197,7 +211,7 @@ def showWidget(window):
                  fg=th.current_date,
                  bg= th.header_color,
                  text= current_date,
-                 font=(th.font_name,12))
+                 font=(th.font_name,20,"bold"))
   date_label.pack(side="right", padx=20) #to show todays date!!
   
     
@@ -341,6 +355,7 @@ def showWidget(window):
   tree.column("priority", width=250,minwidth=250, stretch=False,anchor="center")
   tree.column("delete", width=90,minwidth=90, stretch=False,anchor="center")
   
+  #tags= for animation
   tree.tag_configure("done", foreground="gray", font=(th.font_name, 10, "overstrike"))
   
   style = ttk.Style()
