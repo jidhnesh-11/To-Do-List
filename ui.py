@@ -39,18 +39,20 @@ def showWidget(window):
       
       tk.Label(card,
                            text="Add New Task!",
-                           font= ("Seouge UI" , 12 , "bold"),
                            bg="white",
+                           font=(th.font_name,12),
                            fg=th.add_task_label_color).pack(padx=5,pady=5)
       
       entry = tk.Entry(card, bg="#FDF4D2")
       entry.pack(pady=5, padx=5)
       
       priority_label = tk.Label(card,
+                                font=(th.font_name,12),
                                 text="Priority- ")
       priority_label.pack(pady=5, padx=5)
       
       priority_combo = ttk.Combobox(card,
+                                    font=(th.font_name,12),
                                     values= ("Low" , "Medium" , "High"),
                                     state="readonly") #comboBox!!
       
@@ -59,6 +61,7 @@ def showWidget(window):
       
       
       due_date_label = tk.Label(card,
+                                font=(th.font_name,12),
                                 text="Due date ( YYYY-MM-DD ): ")
       due_date_label.pack( padx=5,pady=5)
       
@@ -85,6 +88,7 @@ def showWidget(window):
                            text="Add Task!!!!!!",
                            bg="#28E4C4",
                            fg="#071A2F",
+                           font=(th.font_name,12),
                            command= addTaskTopLevel)
       button.pack()
       
@@ -116,7 +120,7 @@ def showWidget(window):
                               compound='left',
                               bg= th.sidebar_BG,
                               fg="white",
-                              font=("Seouge UI",15)) 
+                              font=(th.font_name,12),) 
   usr_photo_name.pack(anchor='w',padx=10,pady=10)
   
   #separator lineeeeee!
@@ -140,6 +144,7 @@ def showWidget(window):
                                bg="#C8DFDB",
                                fg="#3368A0",
                                width=30,
+                               font=(th.font_name,12,"bold"),
                                command= open_task_window)
   addTaskButton.pack(padx=5,pady=5)
      
@@ -184,7 +189,7 @@ def showWidget(window):
                           text="All Tasks",
                           bg=th.header_color,
                           fg="white",
-                          font=("Seouge UI",15,"bold")
+                          font=(th.font_name,12)
                           )
   view_label.pack(side="left", padx=20)
     
@@ -192,7 +197,7 @@ def showWidget(window):
                  fg=th.current_date,
                  bg= th.header_color,
                  text= current_date,
-                 font=("Seouge UI",15,"bold"))
+                 font=(th.font_name,12))
   date_label.pack(side="right", padx=20) #to show todays date!!
   
     
@@ -210,8 +215,37 @@ def showWidget(window):
   %Y  Full year (2026)
   '''
   
+  #reset btn colors!!
+  def reset_btn_colors():
+    
+    btn_today.config(bg= th.nav_btn_color)
+    btn_all_tasks.config(bg= th.nav_btn_color)
+    btn_completed.config(bg= th.nav_btn_color)
+    btn_settings.config(bg= th.nav_btn_color)
+
+    
+  #active nav colorrrr!
+  def active_btn_color(view):
+    
+    reset_btn_colors() #first reset then change only 1 button color
+    
+    if view == "today":
+      
+      btn_today.config(bg= th.active_nav_btn)
+      
+    elif view == "all":
+      btn_all_tasks.config(bg= th.active_nav_btn)
+      
+    elif view == "completed":
+      btn_completed.config(bg= th.active_nav_btn)
+      
+    elif view == "settings":
+      btn_settings.config(bg= th.active_nav_btn)
+   
+  #chnage the label name based on the current view!!        
   def change_view(view):
     
+    active_btn_color(view) #call the color chnage f(x)
     nonlocal current_view
 
     '''
@@ -230,13 +264,16 @@ def showWidget(window):
     }
     
     view_label.config(text=view_titles.get(view,"Tasks"))
+    
   
  
   #button to show toadys task in the sideframe  
   btn_today = tk.Button(nav_frame,
-                        text=" Toaday's Tasks ",
+                        text=" Today's Tasks ",
                         width=30,
-                        command= lambda:change_view("Today"))
+                        bg= th.nav_btn_color,
+                        font=(th.font_name,12),
+                        command= lambda:change_view("today"))
   btn_today.pack(padx=5, pady=5)
   
   '''
@@ -250,25 +287,29 @@ def showWidget(window):
   btn_all_tasks = tk.Button(nav_frame,
                             text="All Tasks ",
                             activebackground= "#BDCDD6",
-                            bg="#EEE9DA",
-                            fg="#6096B4",
+                            bg= th.nav_btn_color,
                             width=30,
+                            font=(th.font_name,12),
                             command=lambda:change_view("all"))
   btn_all_tasks.pack(padx=5, pady=5)
    
   btn_completed = tk.Button(nav_frame,
                               text="Completed ",
                               width=30,
+                              bg=th.nav_btn_color,
+                              font=(th.font_name,12),
                               command=lambda:change_view("completed"))
   btn_completed.pack(padx=5, pady=5)
     
   btn_settings = tk.Button(nav_frame,
                               text="Settings ",
                               width=30,
+                              bg= th.nav_btn_color,
+                              font=(th.font_name,12),
                               command=lambda:change_view("settings"))
   btn_settings.pack(padx=5, pady=5)
    
-   #3rd sep linee
+  #3rd sep linee
   sep3 = tk.Frame(sidebar, bg="#E3F2FD", height=2)
   sep3.pack(fill="x", padx=10, pady=5)
     
@@ -291,7 +332,7 @@ def showWidget(window):
   tree.column("priority", width=40, anchor="center")
   tree.column("delete", width=50, anchor="center")
   
-  
+    
   tree.pack(fill="both", expand=True)
   
   def on_tree_click(event):
