@@ -1,7 +1,7 @@
 from datetime import datetime #for default due dates!
 #pure python and contains CRUD for tasks and other ncessary functions
 
-tasks = []
+tasks = []  # this holds the dict of each tasks!!
 next_id = 1
 
   
@@ -16,7 +16,7 @@ def addTask(title, due_date, priority):
     "done": False  
   }
   
-  tasks.append(task)
+  tasks.append(task) # adds the dictionary to the lists!!
   
   next_id += 1
   return task["id"]

@@ -95,6 +95,7 @@ def showWidget(window):
                 tm.addTask(title, due_date, priority ) #add task
                 refresh_task_list()
                 entry.delete(0, tk.END) #clear the entry
+                show_notification("Task Added Successfully!!")   
                 task_window.destroy()
                
   
@@ -105,6 +106,8 @@ def showWidget(window):
                           font=(th.font_name,12,"bold"),
                          command=addTaskTopLevel)
       button.grid(row=6, column=0, columnspan=3, pady=15)
+      
+   
       
   ############# endddddddddddddddddddddd #############
   
@@ -255,6 +258,18 @@ def showWidget(window):
                          font=(th.font_name, 20,"bold"))
   total_label.pack(side="left", padx=10)
   
+  notification_label = tk.Label(status_bar, text="", 
+                                bg=th.content_BG,
+                                fg=th.current_date, 
+                                font=(th.font_name, 20, "bold"))
+  notification_label.pack(side="right", padx=10)
+  
+  # to show the notificationsssssss!!!
+  def show_notification(message):
+    notification_label.config(text=message)
+    # Clear after 2000 ms
+    window.after(2000, lambda: notification_label.config(text=""))
+    
   def update_status_bar():
     
     all_tasks = tm.getTasks()
@@ -429,6 +444,7 @@ def showWidget(window):
       
       if confirm:
         tm.delete_task(task_id)
+        show_notification(" Deleting the Task ")
         refresh_task_list()
         
     if column == "#1": #check Box col
@@ -444,9 +460,12 @@ def showWidget(window):
         
         if new_done:
           tree.item(row_iid, tags= ("done",))
+          show_notification("Task Done!")
           
         else:
           tree.item(row_iid, tags= ())
+          show_notification("Task Marked as Pending")
+        
           
         window.after(3000, refresh_task_list)
       
