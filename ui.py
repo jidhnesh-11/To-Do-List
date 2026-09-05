@@ -265,6 +265,8 @@ def showWidget(window):
     
     view_label.config(text=view_titles.get(view,"Tasks"))
     
+    refresh_task_list()
+    
   
  
   #button to show toadys task in the sideframe  
@@ -383,12 +385,23 @@ def showWidget(window):
       
     all_task_to_show = tm.getTasks()  # create new list by storing all the tasks!
       
-    if current_view =="today":
-        all_task_to_show= [t for t in all_task_to_show if t["due_date"]== current_date_formatted] # to filter and see toadys tasks!
+    if current_view == "all": # all lol
+      
+      all_task_to_show = [t for t in all_task_to_show if not t["done"]]
+      
+      
+    elif current_view =="today": #not completed and todays task only
+      
+        all_task_to_show= [t for t in all_task_to_show if not t["done"] and t["due_date"]== current_date_formatted] # to filter and see toadys tasks!
        
-    elif current_view == "completed":
+    elif current_view == "completed": # task where done= "True"
+      
         all_task_to_show = [t for t in all_task_to_show if t["done"]]
         
+    ''' 
+    else:
+      all_task_to_show = [] #settings or other things wjere task arent necessary to show
+    '''    
     for task in all_task_to_show:  #created new list acc to the current_view!!
         check_symbol = "☑" if task["done"] else "☐"
         tree.insert(
