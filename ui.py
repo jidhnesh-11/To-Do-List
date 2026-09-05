@@ -334,13 +334,22 @@ def showWidget(window):
   tree.heading("priority",text="Priority")
   tree.heading("delete", text="") #no heading for del icon
   
-  tree.column("check",width=40,anchor="center") #attributes for cols
-  tree.column("title",width= 300,anchor="w")  #attri for cols
+  tree.column("check",width=70,minwidth=70,stretch=False, anchor="center") #attributes for cols
+  tree.column("title",width= 550,minwidth=550,stretch=False,anchor="w")  #attri for cols
   
-  tree.column("due_date", width=100, anchor="center")
-  tree.column("priority", width=40, anchor="center")
-  tree.column("delete", width=50, anchor="center")
+  tree.column("due_date", width=250,minwidth=250, stretch=False,anchor="center")
+  tree.column("priority", width=250,minwidth=250, stretch=False,anchor="center")
+  tree.column("delete", width=90,minwidth=90, stretch=False,anchor="center")
   
+  tree.tag_configure("done", foreground="gray", font=(th.font_name, 10, "overstrike"))
+  
+  style = ttk.Style()
+  style.configure("Treeview",
+                  rowheight= 30,
+                  font= (th.font_name,11,"bold"))
+  
+  style.configure("Treeview.Heading",
+                  Font= (th.font_name,11,"bold"))
     
   tree.pack(fill="both", expand=True)
   
@@ -368,8 +377,23 @@ def showWidget(window):
         
     if column == "#1": #check Box col
       
-      tm.toggle_task(task_id)
-      refresh_task_list()
+      task_id= int(row_iid)
+      new_done= tm.toggle_task(task_id)
+      
+      if new_done is not None:
+        
+        values= list(tree.item(row_iid,"values"))
+        values[0] = "☑" if new_done else "☐"
+        tree.item(row_iid, values=values)
+        
+        if new_done:
+          tree.item(row_iid, tags= ("done",))
+          
+        else:
+          tree.item(row_iid, tags= ())
+          
+        window.after(3000, refresh_task_list)
+      
     
   tree.bind("<Button-1>", on_tree_click)
 
