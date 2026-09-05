@@ -101,5 +101,5 @@ Thanks to all open-source resources and the Python/Tkinter community.
 
 Avatar image: cat_pfp.png (replace with your own if desired).
 
-Feel free to adjust the repository URL, screenshot paths, or add your name in the credits. This README gives a clear overview and invites collaboration. 🚀
+Feel free to adjust the repository URL, screenshot paths, or add your name in the credits. This README gives a clear overview and invites collaboration. 
 
