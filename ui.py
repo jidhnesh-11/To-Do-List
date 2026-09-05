@@ -119,8 +119,8 @@ def showWidget(window):
                               text="   Jidhnesh",
                               compound='left',
                               bg= th.sidebar_BG,
-                              fg="white",
-                              font=(th.font_name,12),) 
+                              fg= th.btn_colors,
+                              font=(th.font_name,12,"bold"),) 
   usr_photo_name.pack(anchor='w',padx=10,pady=10)
   
   #separator lineeeeee!
@@ -141,8 +141,8 @@ def showWidget(window):
     
   addTaskButton= tk.Button(add_frame,
                                text=" + New Task ",
-                               bg="#C8DFDB",
-                               fg="#3368A0",
+                               bg= th.nav_btn_color,
+                               fg=th.btn_colors,
                                width=30,
                                font=(th.font_name,12,"bold"),
                                command= open_task_window)
@@ -272,6 +272,8 @@ def showWidget(window):
                         text=" Today's Tasks ",
                         width=30,
                         bg= th.nav_btn_color,
+                        fg=th.btn_colors,
+                        activebackground= th.btn_bg,
                         font=(th.font_name,12),
                         command= lambda:change_view("today"))
   btn_today.pack(padx=5, pady=5)
@@ -286,8 +288,9 @@ def showWidget(window):
   #button to show All tasks in the sideframe
   btn_all_tasks = tk.Button(nav_frame,
                             text="All Tasks ",
-                            activebackground= "#BDCDD6",
                             bg= th.nav_btn_color,
+                            fg=th.btn_colors,
+                            activebackground= th.btn_bg,
                             width=30,
                             font=(th.font_name,12),
                             command=lambda:change_view("all"))
@@ -297,6 +300,8 @@ def showWidget(window):
                               text="Completed ",
                               width=30,
                               bg=th.nav_btn_color,
+                              fg=th.btn_colors,
+                              activebackground= th.btn_bg,
                               font=(th.font_name,12),
                               command=lambda:change_view("completed"))
   btn_completed.pack(padx=5, pady=5)
@@ -305,6 +310,8 @@ def showWidget(window):
                               text="Settings ",
                               width=30,
                               bg= th.nav_btn_color,
+                              fg=th.btn_colors,
+                              activebackground= th.btn_bg,
                               font=(th.font_name,12),
                               command=lambda:change_view("settings"))
   btn_settings.pack(padx=5, pady=5)

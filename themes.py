@@ -16,7 +16,9 @@ toplevel_BG = "#FDF4D2"
 
 #nav button colors
 nav_btn_color= "#4BB8FA"
-active_nav_btn= "#1C4D8D"
+active_nav_btn= "#3572EF"
+btn_colors= "#021526"
+btn_bg= "#AEE2FF"
 
 #font= "Cascadia Mono SemiBold"
 font_name="Comic Sans MS"
