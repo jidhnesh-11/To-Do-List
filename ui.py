@@ -30,7 +30,7 @@ def showWidget(window):
     else:  #loww
       return 1
   
-  def apply_theme_and_rebuild(theme_name):
+  def apply_theme_and_rebuild(theme_name): # !!
     th.apply_theme(theme_name)
     # Destroy all children of the main window
     for widget in window.winfo_children():
@@ -382,11 +382,11 @@ def showWidget(window):
     view_label.config(text=view_titles.get(view,"Tasks"))
     
     if current_view == "settings":
-      tree.pack_forget()
-      settings_frame.pack(fill="both", expand=True)
+      tree.pack_forget() # remove the treeview
+      settings_frame.pack(fill="both", expand=True) #add the settings frame
     else:
-      settings_frame.pack_forget()
-      tree.pack(fill="both", expand=True)
+      settings_frame.pack_forget() #remove the settings frame
+      tree.pack(fill="both", expand=True) #add the treeview again
       refresh_task_list()
     
   
@@ -464,13 +464,13 @@ def showWidget(window):
   tree.column("delete", width=90,minwidth=90, stretch=False,anchor="center")
   
   #tags= for animation
-  tree.tag_configure("done", foreground="gray", font=(th.font_name, 20, "overstrike"))
+  tree.tag_configure("done", foreground="gray", font=(th.font_name, 15, "overstrike"))
   
   # tags for prio!!!
   
-  tree.tag_configure("high", foreground=th.high_priority_color , font=(th.font_name, 20))
-  tree.tag_configure("medium", foreground=th.medium_priority_color, font=(th.font_name, 20))
-  tree.tag_configure("low", foreground=th.low_priority_color, font=(th.font_name, 20))
+  tree.tag_configure("high", foreground=th.high_priority_color , font=(th.font_name, 15))
+  tree.tag_configure("medium", foreground=th.medium_priority_color, font=(th.font_name, 15))
+  tree.tag_configure("low", foreground=th.low_priority_color, font=(th.font_name, 15))
   
   style = ttk.Style()
   style.configure("Treeview",
@@ -538,6 +538,11 @@ def showWidget(window):
   
   def refresh_task_list():
     
+    def refresh_task_list():
+      if not tree.winfo_exists():
+        return
+    
+    
     for item in tree.get_children(): #deleete the tasks
       tree.delete(item)
       
@@ -581,13 +586,13 @@ def showWidget(window):
           prio_display = ""
     
           if task["priority"] == "high":
-            prio_display = th.high_circle
+            prio_display = f"{th.high_circle} High"
       
           elif task["priority"] == "medium":
-            prio_display= th.medium_circle
+            prio_display= f"{th.medium_circle} Medium"
       
           else:
-            prio_display = th.medium_circle
+            prio_display = f"{th.medium_circle} Low"
         
           check_symbol = "☑" if task["done"] else "☐"
           tree.insert(
