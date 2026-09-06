@@ -19,6 +19,17 @@ def showWidget(window):
   
   current_view= "all" 
   
+  def priority_val(priority):  #to assign values the use .sort()
+    
+    if priority == "high":
+      return 3
+    
+    elif priority == "medium":
+      return 2
+    
+    else:  #loww
+      return 1
+  
   
   ############# NEW WINDOW Top level ##############
   def open_task_window(): #to open new toplevel to add tasks!/
@@ -412,7 +423,13 @@ def showWidget(window):
   tree.column("delete", width=90,minwidth=90, stretch=False,anchor="center")
   
   #tags= for animation
-  tree.tag_configure("done", foreground="gray", font=(th.font_name, 10, "overstrike"))
+  tree.tag_configure("done", foreground="gray", font=(th.font_name, 20, "overstrike"))
+  
+  # tags for prio!!!
+  
+  tree.tag_configure("high", foreground=th.high_priority_color , font=(th.font_name, 20))
+  tree.tag_configure("medium", foreground=th.medium_priority_color, font=(th.font_name, 20))
+  tree.tag_configure("low", foreground=th.low_priority_color, font=(th.font_name, 20))
   
   style = ttk.Style()
   style.configure("Treeview",
@@ -424,6 +441,8 @@ def showWidget(window):
     
   tree.pack(fill="both", expand=True)
   
+  
+  # when tree is clickeddd
   def on_tree_click(event):
     
     region= tree.identify("region", event.x, event.y)
@@ -497,20 +516,48 @@ def showWidget(window):
       
         all_task_to_show = [t for t in all_task_to_show if t["done"]]
         
-    ''' 
+     
     else:
       all_task_to_show = [] #settings or other things wjere task arent necessary to show
-    '''    
     
+    # filter by prio and due dates!!!
+    
+    if current_view == "today":
+      
+      all_task_to_show.sort(key= lambda t : priority_val(t["priority"]), reverse= True) 
+      
+    elif current_view == "all":
+      
+      all_task_to_show.sort(key = lambda t : t["due_date"]) 
+    
+
+      
+         
     for task in all_task_to_show:  #created new list acc to the current_view!!
-        check_symbol = "☑" if task["done"] else "☐"
-        tree.insert(
+          # color the prio based on high med lowwwww
+    
+          prio_display = ""
+    
+          if task["priority"] == "high":
+            prio_display = th.high_circle
+      
+          elif task["priority"] == "medium":
+            prio_display= th.high_circle
+      
+          else:
+            prio_display = th.high_circle
+        
+          check_symbol = "☑" if task["done"] else "☐"
+          tree.insert(
           
           "",
           "end",
           iid= str(task["id"]),
-          values=(check_symbol, task["title"],task["due_date"], task["priority"] , "🗑")
-        )
+          values=(check_symbol, 
+                  task["title"],
+                  task["due_date"], 
+                  prio_display, "🗑"), 
+                  tags = (task["priority"],))
     
     update_status_bar() 
 

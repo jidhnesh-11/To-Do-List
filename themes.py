@@ -26,3 +26,22 @@ font_name="Comic Sans MS"
 #top level card
 tl_color= "#66A3BF"
 tl_font_col = "#021526"
+
+
+#prio colorssss
+
+high_priority_color = "#EF4444"      # soft red
+medium_priority_color = "#F59E0B"    # soft amber
+low_priority_color = "#10B981"       # soft green
+
+# Circle symbols!!!
+high_circle = "●"
+medium_circle = "●"
+low_circle = "●"
+
+
+
+# Circle symbols (can also use colored emojis)
+high_circle = "●"
+medium_circle = "●"
+low_circle = "●"
