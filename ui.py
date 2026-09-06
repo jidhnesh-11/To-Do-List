@@ -30,6 +30,13 @@ def showWidget(window):
     else:  #loww
       return 1
   
+  def apply_theme_and_rebuild(theme_name):
+    th.apply_theme(theme_name)
+    # Destroy all children of the main window
+    for widget in window.winfo_children():
+        widget.destroy()
+    # Rebuild UI
+    showWidget(window)
   
   ############# NEW WINDOW Top level ##############
   def open_task_window(): #to open new toplevel to add tasks!/
@@ -322,12 +329,39 @@ def showWidget(window):
       
     elif view == "settings":
       btn_settings.config(bg= th.active_nav_btn)
+      
+      
+  # new frame for settingsssss!!!!
+  settings_frame = tk.Frame(content, bg=th.content_BG)
+      
+  theme_var = tk.StringVar(value=th.current_theme)  # from themes
+    
+  tk.Label(settings_frame, text="Select Theme", bg=th.content_BG, fg=th.current_date,
+             font=(th.font_name, 14, "bold")).pack(pady=10)
+    
+  for theme_name in ["pastel", "dark", "vintage"]:
+        rbtn = tk.Radiobutton(settings_frame, 
+                              text=theme_name.capitalize(),
+                              variable=theme_var, 
+                              value=theme_name,
+                              bg=th.content_BG, 
+                              fg=th.current_date,
+                              activebackground=th.content_BG,
+                              activeforeground= th.current_date,
+                              highlightthickness=0,
+                              selectcolor= th.content_BG,
+                              command=lambda name=theme_name: apply_theme_and_rebuild(name))
+        rbtn.pack(anchor="w", padx=20, pady=5)
+    
+        
+
+      
    
   #chnage the label name based on the current view!!        
   def change_view(view):
-    
-    active_btn_color(view) #call the color chnage f(x)
     nonlocal current_view
+    active_btn_color(view) #call the color chnage f(x)
+
 
     '''
     Why nonlocal?
@@ -336,6 +370,7 @@ def showWidget(window):
     #default view
     current_view = view
     
+
     view_titles= {
       
       "today": "Today's Tasks",
@@ -346,7 +381,13 @@ def showWidget(window):
     
     view_label.config(text=view_titles.get(view,"Tasks"))
     
-    refresh_task_list()
+    if current_view == "settings":
+      tree.pack_forget()
+      settings_frame.pack(fill="both", expand=True)
+    else:
+      settings_frame.pack_forget()
+      tree.pack(fill="both", expand=True)
+      refresh_task_list()
     
   
  
@@ -440,6 +481,7 @@ def showWidget(window):
                   Font= (th.font_name,11,"bold"))
     
   tree.pack(fill="both", expand=True)
+  
   
   
   # when tree is clickeddd
@@ -542,10 +584,10 @@ def showWidget(window):
             prio_display = th.high_circle
       
           elif task["priority"] == "medium":
-            prio_display= th.high_circle
+            prio_display= th.medium_circle
       
           else:
-            prio_display = th.high_circle
+            prio_display = th.medium_circle
         
           check_symbol = "☑" if task["done"] else "☐"
           tree.insert(
@@ -562,7 +604,7 @@ def showWidget(window):
     update_status_bar() 
 
 
-  refresh_task_list()
-  
+  #refresh_task_list()
+  change_view("all")
   
   
