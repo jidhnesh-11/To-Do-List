@@ -1,5 +1,3 @@
-# themes.py
-
 THEMES = {
     "pastel": {
         "header_color": "#3368A0",
@@ -51,8 +49,96 @@ THEMES = {
         "high_priority_color": "#C0392B",
         "medium_priority_color": "#D4A017",
         "low_priority_color": "#6B8E23",
+    },
+    "dark2": {
+        "header_color": "#29232F",
+        "current_date": "#F4EEF5",
+        "content_BG": "#17131C",
+        "sidebar_BG": "#241E2A",
+        "add_task_label_color": "#B9A5BD",
+        "toplevel_BG": "#17131C",
+        "nav_btn_color": "#382F3D",
+        "active_nav_btn": "#624B69",
+        "btn_colors": "#F4EEF5",
+        "btn_bg": "#4A3A50",
+        "tl_color": "#241E2A",
+        "tl_font_col": "#F4EEF5",
+        "high_priority_color": "#E06A7A",
+        "medium_priority_color": "#D6AA4C",
+        "low_priority_color": "#72A67D"
+        },
+    "dark3": {
+        "header_color": "#26352B",
+        "current_date": "#FFEC81",
+        "content_BG": "#40211E",
+        "sidebar_BG": "#1D2821",
+        "add_task_label_color": "#A4B095",
+        "toplevel_BG": "#111713",
+        "nav_btn_color": "#3B2A29",
+        "active_nav_btn": "#82524F",
+        "btn_colors": "#DACB74",
+        "btn_bg": "#4A3B30",
+        "tl_color": "#1D2821",
+        "tl_font_col": "#E7D258",
+        "high_priority_color": "#C35C4C",
+        "medium_priority_color": "#C49A46",
+        "low_priority_color": "#70A078"
+    },
+    "eg": {
+        "header_color": "#40372A",
+        "current_date": "#FFE8A3",
+        "content_BG": "#181912",
+        "sidebar_BG": "#2C2D20",
+        "add_task_label_color": "#E3C96A",
+        "toplevel_BG": "#181912",
+        "nav_btn_color": "#3C432D",
+        "active_nav_btn": "#687548",
+        "btn_colors": "#FFF1B8",
+        "btn_bg": "#594A35",
+        "tl_color": "#2C2D20",
+        "tl_font_col": "#FFF1B8",
+        "high_priority_color": "#C15C4B",
+        "medium_priority_color": "#D4A943",
+        "low_priority_color": "#76965D"
+    },
+    "yelo": {
+        "header_color": "#526D9B",
+        "current_date": "#344765",
+        "content_BG": "#F1F5FA",
+        "sidebar_BG": "#D0DCEC",
+        "add_task_label_color": "#637DA7",
+        "toplevel_BG": "#F1F5FA",
+        "nav_btn_color": "#B8C7DE",
+        "active_nav_btn": "#718CB8",
+        "btn_colors": "#344765",
+        "btn_bg": "#DDE5F0",
+        "tl_color": "#D0DCEC",
+        "tl_font_col": "#344765",
+        "high_priority_color": "#C75A69",
+        "medium_priority_color": "#C39A4B",
+        "low_priority_color": "#668B78"
+    },
+
+    "blu": {
+        "header_color": "#26344E",
+        "current_date": "#EEF4FF",
+        "content_BG": "#111722",
+        "sidebar_BG": "#1C2638",
+        "add_task_label_color": "#A6B7D2",
+        "toplevel_BG": "#111722",
+        "nav_btn_color": "#293852",
+        "active_nav_btn": "#4E6590",
+        "btn_colors": "#EEF4FF",
+        "btn_bg": "#394D70",
+        "tl_color": "#1C2638",
+        "tl_font_col": "#EEF4FF",
+        "high_priority_color": "#DF6878",
+        "medium_priority_color": "#D3A94D",
+        "low_priority_color": "#70A286"
     }
-}
+
+  }
+
 
 # Default theme
 current_theme = "pastel"
@@ -72,12 +158,13 @@ apply_theme("pastel")
 
 #font and symbols remain constant across themes
 #font_name = "Comic Sans MS"
-font_name= "Century Schoolbook"
+#font_name= "Century Schoolbook"
 
 #font_name=font= "Edwardian Script ITC"
 #font_name ="Footlight MT Light"
 
-######## lol font_name= "MS Reference Specialty"
+######## lol 
+font_name= "MS Reference Specialty"
 
 
 high_circle = "●"

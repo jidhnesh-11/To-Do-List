@@ -339,7 +339,7 @@ def showWidget(window):
   tk.Label(settings_frame, text="Select Theme", bg=th.content_BG, fg=th.current_date,
              font=(th.font_name, 14, "bold")).pack(pady=10)
     
-  for theme_name in ["pastel", "dark", "vintage"]:
+  for theme_name in ["pastel", "dark", "vintage","dark2","dark3","eg","yelo","blu"]:
         rbtn = tk.Radiobutton(settings_frame, 
                               text=theme_name.capitalize(),
                               variable=theme_var, 
