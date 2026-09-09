@@ -158,13 +158,15 @@ apply_theme("pastel")
 
 #font and symbols remain constant across themes
 #font_name = "Comic Sans MS"
+
+font_name = "Comic Sans MS"
+
 #font_name= "Century Schoolbook"
 
 #font_name=font= "Edwardian Script ITC"
 #font_name ="Footlight MT Light"
 
-######## lol 
-font_name= "MS Reference Specialty"
+######## lol font_name= "MS Reference Specialty"
 
 
 high_circle = "●"

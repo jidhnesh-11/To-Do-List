@@ -3,8 +3,9 @@
 
 import tkinter as tk
 
-import task_manager as tm #now can use CRUD functions
+# bye bye ^-^ -> import task_manager as tm #now can use CRUD functions
 import themes as th
+import auth_db as audb #ts now handles the CRUD
 
 from tkinter import ttk 
 from tkinter import messagebox
@@ -13,7 +14,7 @@ from tkinter import messagebox
 from datetime import datetime #to show date (due date and toadys current date!!)
 
 
-def showWidget(window):
+def showWidget(window, username):
   current_date= datetime.now().strftime("%A , %d %B %Y") #today's date
   current_date_formatted= datetime.now().strftime("%Y-%m-%d")  # YYYY-MM-DD
   
@@ -36,7 +37,7 @@ def showWidget(window):
     for widget in window.winfo_children():
         widget.destroy()
     # Rebuild UI
-    showWidget(window)
+    showWidget(window, username)
   
   ############# NEW WINDOW Top level ##############
   def open_task_window(): #to open new toplevel to add tasks!/
@@ -110,7 +111,7 @@ def showWidget(window):
               
               if title:
                     
-                tm.addTask(title, due_date, priority ) #add task
+                audb.add_task(username,title, due_date, priority ) #add task
                 refresh_task_list()
                 entry.delete(0, tk.END) #clear the entry
                 show_notification("Task Added Successfully!!")   
@@ -151,7 +152,7 @@ def showWidget(window):
   
   usr_photo_name = tk.Label(profile_frame,
                               image= pfp,
-                              text="   Jidhnesh",
+                              text=f"    {username}",
                               compound='left',
                               bg= th.sidebar_BG,
                               fg= th.btn_colors,
@@ -290,7 +291,7 @@ def showWidget(window):
     
   def update_status_bar():
     
-    all_tasks = tm.getTasks()
+    all_tasks = audb.get_tasks(username)
     total = len(all_tasks)
     
     completed= sum(1 for t in all_tasks if t["done"])
@@ -504,14 +505,14 @@ def showWidget(window):
       confirm = messagebox.askyesno("Delete task","Delete This Task?") # returns True if yes else False
       
       if confirm:
-        tm.delete_task(task_id)
+        audb.delete_task(task_id, username)
         show_notification(" Deleting the Task ")
         refresh_task_list()
         
     if column == "#1": #check Box col
       
       task_id= int(row_iid)
-      new_done= tm.toggle_task(task_id)
+      new_done= audb.toggle_task(task_id, username)
       
       if new_done is not None:
         
@@ -537,10 +538,9 @@ def showWidget(window):
   #refresh the tasks and show in the "content" frame
   
   def refresh_task_list():
-    
-    def refresh_task_list():
-      if not tree.winfo_exists():
-        return
+  
+    if not tree.winfo_exists():
+      return
     
     
     for item in tree.get_children(): #deleete the tasks
@@ -548,7 +548,7 @@ def showWidget(window):
       
      # show tasks wth checkbox icon!
       
-    all_task_to_show = tm.getTasks()  # create new list by storing all the tasks!
+    all_task_to_show = audb.get_tasks(username)  # create new list by storing all the tasks!
       
     if current_view == "all": # all lol
       
@@ -592,7 +592,7 @@ def showWidget(window):
             prio_display= f"{th.medium_circle} Medium"
       
           else:
-            prio_display = f"{th.medium_circle} Low"
+            prio_display = f"{th.low_circle} Low"
         
           check_symbol = "☑" if task["done"] else "☐"
           tree.insert(
