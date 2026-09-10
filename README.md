@@ -25,7 +25,14 @@ https://img.shields.io/badge/License-MIT-green
 Note: Tasks are currently stored in memory only. They will be lost when the app closes. SQLite persistence is planned for a future update.
 
 ## Screenshots
-Will add lated the works still in progresss!!
+
+<img width="623" height="542" alt="Screenshot 2026-09-10 211150" src="https://github.com/user-attachments/assets/af39ec49-4d3b-47a5-9f08-c9c731e53625" />
+<img width="1917" height="1078" alt="image" src="https://github.com/user-attachments/assets/a0cc2667-89b0-4ae7-b851-2319f77c319e" />
+<img width="1917" height="1078" alt="Screenshot 2026-09-10 211234" src="https://github.com/user-attachments/assets/101c0ce9-32b5-4163-bad5-8c6481c11cd1" />
+<img width="1917" height="1078" alt="Screenshot 2026-09-10 211303" src="https://github.com/user-attachments/assets/6637addf-8a39-4090-82bb-58c056908b17" />
+<img width="1917" height="1078" alt="Screenshot 2026-09-10 211251" src="https://github.com/user-attachments/assets/bcf8bf1f-51a8-4738-9cce-adfd13635cb8" />
+<img width="1917" height="1078" alt="Screenshot 2026-09-10 211322" src="https://github.com/user-attachments/assets/029b68e2-ee9d-42fd-b716-3fa69a7f3f61" />
+
 
 ## Installation
 Clone the repository
