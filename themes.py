@@ -141,7 +141,7 @@ THEMES = {
 
 
 # Default theme
-current_theme = "pastel"
+current_theme = "dark"
 
 # f(x) to set colors based on current themeeeee!
 def apply_theme(theme_name):
@@ -153,18 +153,18 @@ def apply_theme(theme_name):
     for key, value in colors.items():
         globals()[key] = value
 
-#default themeeeee
-apply_theme("pastel")
+#set default themeeeee
+apply_theme("dark")
 
 #font and symbols remain constant across themes
 #font_name = "Comic Sans MS"
 
-font_name = "Comic Sans MS"
+#font_name = "Comic Sans MS"
 
 #font_name= "Century Schoolbook"
 
 #font_name=font= "Edwardian Script ITC"
-#font_name ="Footlight MT Light"
+font_name ="Footlight MT Light"
 
 ######## lol font_name= "MS Reference Specialty"
 
