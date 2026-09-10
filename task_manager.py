@@ -1,3 +1,7 @@
+
+
+# thanks for your work now you have no use to me 😭😭
+
 from datetime import datetime #for default due dates!
 #pure python and contains CRUD for tasks and other ncessary functions
 
