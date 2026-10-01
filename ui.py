@@ -6,6 +6,7 @@ import tkinter as tk
 # bye bye ^-^ -> import task_manager as tm #now can use CRUD functions
 import themes as th
 import auth_db as audb #ts now handles the CRUD
+import dashboard
 
 from tkinter import ttk 
 from tkinter import messagebox
@@ -38,6 +39,13 @@ def showWidget(window, username):
         widget.destroy()
     # Rebuild UI
     showWidget(window, username)
+    
+  def open_dashboard(): # the dashboard func!!!!
+    tasks = audb.get_tasks(username)
+    if not tasks:
+        show_notification("No tasks to show yet!")
+        return
+    dashboard.show_dashboard(tasks, completed_color=th.low_priority_color, pending_color=th.high_priority_color)
   
   ############# NEW WINDOW Top level ##############
   def open_task_window(): #to open new toplevel to add tasks!/
@@ -109,19 +117,30 @@ def showWidget(window, username):
               priority= priority_combo.get().lower()  #get the priority (lol i forgot braces and it returned the method :P)
               due_date= due_date_entry.get()    #get the due date
               
-              if title:
+              if not title:
+                return
+              
+              try: 
+                user_date = datetime.strptime(due_date, "%Y-%m-%d").date()
+              except ValueError:
+                messagebox.showerror("Inavalid Date" , "Please enter a valid date in YYYY-MM-DD format.")
+                return
+              
+              if user_date < datetime.now().date():
+                messagebox.showerror("Invalid Date", "Due Date cant be in the past!")
+                return
                     
-                audb.add_task(username,title, due_date, priority ) #add task
-                refresh_task_list()
-                entry.delete(0, tk.END) #clear the entry
-                show_notification("Task Added Successfully!!")   
-                task_window.destroy()
+              audb.add_task(username,title, due_date, priority ) #add task
+              refresh_task_list()
+              entry.delete(0, tk.END) #clear the entry
+              show_notification("Task Added Successfully!!")   
+              task_window.destroy()
                
   
   
       button = tk.Button(card, text="Add Task",
                           bg= th.nav_btn_color,
-                          fg=th.btn_colors,                              width=30,
+                          fg=th.btn_colors,width=30,
                           font=(th.font_name,12,"bold"),
                          command=addTaskTopLevel)
       button.grid(row=6, column=0, columnspan=3, pady=15)
@@ -445,6 +464,16 @@ def showWidget(window, username):
   sep3 = tk.Frame(sidebar, bg="#E3F2FD", height=2)
   sep3.pack(fill="x", padx=10, pady=5)
     
+  btn_dashboard = tk.Button(nav_frame,
+                              text="dashboard ",
+                              width=30,
+                              bg= th.nav_btn_color,
+                              fg=th.btn_colors,
+                              activebackground= th.btn_bg,
+                              font=(th.font_name,12),
+                              command= open_dashboard)
+  btn_dashboard.pack(padx=5, pady=5)
+  
   #main treeview inside the "content" frame!
   tree= ttk.Treeview(content,
                      columns =("check","title","due_date","priority","delete"),
