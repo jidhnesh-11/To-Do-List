@@ -465,7 +465,7 @@ def showWidget(window, username):
   sep3.pack(fill="x", padx=10, pady=5)
     
   btn_dashboard = tk.Button(nav_frame,
-                              text="dashboard ",
+                              text="Dashboard ",
                               width=30,
                               bg= th.nav_btn_color,
                               fg=th.btn_colors,

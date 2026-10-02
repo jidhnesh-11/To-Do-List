@@ -45,6 +45,7 @@ def show_dashboard(tasks, completed_color,pending_color):
     plt.ylabel("Number of Tasks",    fontsize=14, fontweight="bold")
     plt.xticks(fontsize=12)
     plt.yticks(fontsize=12)
+    plt.grid(True)
     plt.show()
 '''
 show_dashboard(tasks,
